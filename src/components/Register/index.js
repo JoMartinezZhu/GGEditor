@@ -4,7 +4,7 @@ import { upperFirst } from '@utils';
 import withGGEditorContext from '@common/context/GGEditorContext/withGGEditorContext';
 
 class Register extends React.Component {
-  static create = function (type) {
+  static create = function(type) {
     class TypedRegister extends Register {
       constructor(props) {
         super(props, type);
@@ -12,7 +12,7 @@ class Register extends React.Component {
     }
 
     return withGGEditorContext(TypedRegister);
-  }
+  };
 
   constructor(props, type) {
     super(props);
@@ -39,7 +39,7 @@ class Register extends React.Component {
       }
 
       const args = keys.map(key => this.props[key]);
-
+      console.log(`register${upperFirst(type)}`);
       host[`register${upperFirst(type)}`](...args);
     });
   }

@@ -6,7 +6,6 @@ import { uniqueId } from '@utils';
 export default class Editor extends GGEditorCore {
   constructor(options) {
     super(options);
-
     this.id = uniqueId();
 
     this.on(EVENT_BEFORE_ADD_PAGE, ({ className }) => {
