@@ -11,6 +11,7 @@ import {
 } from '@components/Register';
 import Command from '@components/Command';
 import Minimap from '@components/Minimap';
+import Tooltip from '@components/Tooltip';
 import ContextMenu, {
   NodeMenu,
   EdgeMenu,
@@ -42,6 +43,7 @@ export {
   RegisterBehaviour,
   Command,
   Minimap,
+  Tooltip,
   NodeMenu,
   EdgeMenu,
   GroupMenu,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'antd';
-import GGEditor, { Koni, RegisterCommand } from 'gg-editor';
+import GGEditor, { Koni, RegisterCommand, Tooltip } from 'gg-editor';
 import EditorMinimap from '../components/EditorMinimap';
 import { KoniContextMenu } from '../components/EditorContextMenu';
 import { KoniToolbar } from '../components/EditorToolbar';
@@ -11,11 +11,11 @@ import styles from '../Flow/index.less';
 
 class KoniPage extends React.PureComponent {
   componentDidMount() {
+    // 这里可以拿到 graph
     const { graph } = this.graphNode;
-    graph.on('beforechange', function(ev) {
-      // console.log('beforechange', ev);
-    });
+    console.log('graph', graph);
   }
+
   render() {
     return (
       <GGEditor className={styles.editor}>
@@ -36,7 +36,8 @@ class KoniPage extends React.PureComponent {
             <EditorMinimap />
           </Col>
         </Row>
-        {/* <RegisterCommand
+        {/* 禁止点击 + ( hover 出现) 这个符号 ，自动生成节点 Node*/}
+        <RegisterCommand
           name="copyAdjacent"
           config={{
             enable() {
@@ -44,11 +45,41 @@ class KoniPage extends React.PureComponent {
             },
           }}
           extend="copyAdjacent"
-        /> */}
-        {/* <RegisterCommand name="delete" config={{ shortcutCodes: [] }} extend="delete" /> */}
+        />
         <RegisterCommand name="undo" config={{ shortcutCodes: [] }} extend="undo" />
         <KoniCustomNode />
         <KoniContextMenu />
+        {/* 自定义 Tooltip 的显示 options 的参数可以查看 @antv/g6/plugins/tool.tooltip */}
+        <Tooltip
+          options={{
+            getTooltip({ item }) {
+              if (item) {
+                const model = item.getModel();
+                return `
+                  <div class="g6-tooltip" style="
+                    position: absolute;
+                    zIndex: 8;
+                    transition: visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1), left 0.4s cubic-bezier(0.23, 1, 0.32, 1), top 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+                    background-color: rgba(255, 255, 255, 0.9);
+                    box-shadow: 0px 0px 10px #aeaeae;
+                    border-radius: 3px;
+                    color: rgb(87, 87, 87);
+                    line-height: 20px;
+                    padding: 10px;
+                    max-width:200px;
+                    height:auto;
+                  ">
+                    <p class="g6-tooltip-title" style="margin:0;">
+                    ${model.text}
+                    </p>
+                  </div>
+                `;
+              }
+
+              return null;
+            },
+          }}
+        />
       </GGEditor>
     );
   }

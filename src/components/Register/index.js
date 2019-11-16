@@ -39,7 +39,6 @@ class Register extends React.Component {
       }
 
       const args = keys.map(key => this.props[key]);
-      console.log(`register${upperFirst(type)}`);
       host[`register${upperFirst(type)}`](...args);
     });
   }

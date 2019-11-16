@@ -22,7 +22,7 @@ class DetailForm extends React.Component {
     return propsAPI.getSelected()[0];
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     if (e && e.preventDefault) {
       e.preventDefault();
     }
@@ -63,14 +63,23 @@ class DetailForm extends React.Component {
 
   renderNodeDetail = () => {
     const { form } = this.props;
-    const { label } = this.item.getModel();
+    const { label, text } = this.item.getModel();
 
     return (
-      <Item label="Label" {...inlineFormItemLayout}>
-        {form.getFieldDecorator('label', {
-          initialValue: label,
-        })(<Input onBlur={this.handleSubmit} />)}
-      </Item>
+      <Fragment>
+        <Item label="Label" {...inlineFormItemLayout}>
+          {form.getFieldDecorator('label', {
+            initialValue: label,
+          })(<Input onBlur={this.handleSubmit} />)}
+        </Item>
+        {text && (
+          <Item label="Text" {...inlineFormItemLayout}>
+            {form.getFieldDecorator('text', {
+              initialValue: text,
+            })(<Input onBlur={this.handleSubmit} />)}
+          </Item>
+        )}
+      </Fragment>
     );
   };
 
